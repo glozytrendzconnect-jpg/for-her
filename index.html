@@ -20,7 +20,6 @@ body {
   transition: background 2s ease;
 }
 
-/* Center */
 .center {
   display: flex;
   align-items: center;
@@ -33,16 +32,20 @@ body {
 
 .hidden { display: none; }
 
-/* Tap Button */
-.tap {
-  font-size: 20px;
+/* Buttons */
+.tap, .option {
+  font-size: 18px;
   padding: 14px 26px;
   border-radius: 28px;
   background: rgba(255,255,255,0.15);
   backdrop-filter: blur(10px);
-  box-shadow: 0 0 30px rgba(255,105,180,0.6);
-  animation: pulse 1.8s infinite;
+  box-shadow: 0 0 25px rgba(255,105,180,0.5);
+  margin: 10px;
   cursor: pointer;
+}
+
+.tap {
+  animation: pulse 1.8s infinite;
 }
 
 @keyframes pulse {
@@ -50,17 +53,11 @@ body {
   50% { transform: scale(1.06); }
 }
 
-/* 🎁 Gift Box */
+/* Gift */
 .gift-box {
   font-size: 90px;
   animation: shake 1.2s infinite;
   cursor: pointer;
-}
-
-.gift-text {
-  margin-top: 18px;
-  font-size: 16px;
-  opacity: 0.9;
 }
 
 @keyframes shake {
@@ -69,6 +66,12 @@ body {
   50% { transform: rotate(5deg); }
   75% { transform: rotate(-5deg); }
   100% { transform: rotate(0); }
+}
+
+/* Question */
+.question {
+  font-size: 20px;
+  margin-bottom: 20px;
 }
 
 /* Card */
@@ -80,10 +83,8 @@ body {
   backdrop-filter: blur(16px);
   border-radius: 22px;
   box-shadow: 0 0 45px rgba(255,105,180,0.25);
-  animation: fadeIn 2s ease forwards;
 }
 
-/* Photo */
 .photo {
   width: 150px;
   height: 150px;
@@ -94,7 +95,6 @@ body {
   margin-bottom: 18px;
 }
 
-/* Name */
 .name {
   font-size: 24px;
   font-weight: 600;
@@ -102,62 +102,46 @@ body {
   opacity: 0;
 }
 
-/* Message */
 .message {
   font-size: 17px;
   line-height: 1.9;
   min-height: 320px;
-  padding: 0 4px;
 }
 
-/* Final */
 .final {
   margin-top: 22px;
-  font-size: 21px;
+  font-size: 20px;
   font-weight: 600;
   opacity: 0;
-  transform: scale(0.9);
-  transition: all 2s ease;
-}
-
-/* Hearts Burst */
-.heart {
-  position: fixed;
-  font-size: 16px;
-  animation: rise 6s ease forwards;
-  pointer-events: none;
-}
-
-@keyframes rise {
-  from { transform: translateY(0) scale(0.6); opacity: 0; }
-  20% { opacity: 1; }
-  to { transform: translateY(-120vh) scale(1.3); opacity: 0; }
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
+  transition: 2s ease;
 }
 </style>
 </head>
 
 <body>
 
-<!-- TAP -->
+<!-- START -->
 <div class="center" id="startScreen">
   <div class="tap">Tap to Begin ❤️</div>
 </div>
 
-<!-- 🎁 GIFT BOX -->
+<!-- GIFT -->
 <div class="center hidden" id="giftScreen">
   <div class="gift-box" id="giftBox">🎁</div>
-  <div class="gift-text">Tap to open your gift</div>
+  <div style="margin-top:16px;">Tap to open your gift</div>
+</div>
+
+<!-- QUESTIONS -->
+<div class="center hidden" id="questionScreen">
+  <div class="question" id="questionText"></div>
+  <div class="option" onclick="nextQuestion()">Okay… tell me 😟</div>
+  <div class="option" onclick="nextQuestion()">You’re scaring me 😶</div>
 </div>
 
 <!-- MAIN -->
 <div class="center hidden" id="main">
   <div class="card">
-    <img src="IMG_20251103_110419.jpg" class="photo" alt="Her Photo">
+    <img src="IMG_20251103_110419.jpg" class="photo">
     <div class="name" id="name"></div>
     <div class="message" id="message"></div>
     <div class="final" id="final"></div>
@@ -165,8 +149,15 @@ body {
 </div>
 
 <script>
-// 💕 CONFIG
 const herName = "My Love 🌙";
+
+const questions = [
+  "I need to tell you something important…",
+  "This might change everything between us…",
+  "Are you sure you want to continue?"
+];
+
+let qIndex = 0;
 
 const lines = [
   "Happy New Year, my love.",
@@ -190,46 +181,46 @@ const lines = [
   "I’m working hard to become better,",
   "so one day I can give you everything you deserve.",
   "",
-  "Thank you for believing in me."
+  "And hey… sorry for scaring you earlier 😅❤️",
+  "I just wanted to surprise you."
 ];
 
 const start = document.getElementById("startScreen");
-const giftScreen = document.getElementById("giftScreen");
+const gift = document.getElementById("giftScreen");
 const giftBox = document.getElementById("giftBox");
+const questionScreen = document.getElementById("questionScreen");
+const questionText = document.getElementById("questionText");
 const main = document.getElementById("main");
 
-// Step 1
 start.onclick = () => {
   start.classList.add("hidden");
-  giftScreen.classList.remove("hidden");
+  gift.classList.remove("hidden");
 };
 
-// Step 2
 giftBox.onclick = () => {
-  giftBox.innerText = "💥";
-  giftBox.style.animation = "none";
+  gift.classList.add("hidden");
+  questionScreen.classList.remove("hidden");
+  questionText.innerText = questions[0];
+};
 
-  setTimeout(() => {
-    giftScreen.classList.add("hidden");
+function nextQuestion() {
+  qIndex++;
+  if (qIndex < questions.length) {
+    questionText.innerText = questions[qIndex];
+  } else {
+    questionScreen.classList.add("hidden");
     main.classList.remove("hidden");
     revealName();
-    setTimeout(typeMessage, 2200);
-  }, 800);
-};
-
-// Name reveal
-function revealName() {
-  const el = document.getElementById("name");
-  let i = 0;
-  el.style.opacity = 1;
-  const intv = setInterval(() => {
-    el.innerHTML += herName.charAt(i);
-    i++;
-    if (i >= herName.length) clearInterval(intv);
-  }, 130);
+    setTimeout(typeMessage, 2000);
+  }
 }
 
-// Typewriter
+function revealName() {
+  const el = document.getElementById("name");
+  el.style.opacity = 1;
+  el.innerText = herName;
+}
+
 let l = 0, c = 0;
 const msg = document.getElementById("message");
 
@@ -243,37 +234,12 @@ function typeMessage() {
       msg.innerHTML += "<br>";
       c = 0;
       l++;
-      setTimeout(typeMessage, 650);
+      setTimeout(typeMessage, 600);
     }
   } else {
-    finalReveal();
-  }
-}
-
-// Final reveal
-function finalReveal() {
-  document.body.style.background =
-    "radial-gradient(circle at center, #1a2a33, #000)";
-
-  const final = document.getElementById("final");
-  final.innerText = "One day, I’ll give you everything 💍";
-  final.style.opacity = 1;
-  final.style.transform = "scale(1)";
-
-  heartBurst();
-}
-
-// Hearts burst
-function heartBurst() {
-  for (let i = 0; i < 100; i++) {
-    const h = document.createElement("div");
-    h.className = "heart";
-    h.innerText = "❤️";
-    h.style.left = Math.random() * 100 + "vw";
-    h.style.bottom = "-20px";
-    h.style.animationDelay = Math.random() * 2 + "s";
-    document.body.appendChild(h);
-    setTimeout(() => h.remove(), 8000);
+    const final = document.getElementById("final");
+    final.innerText = "One day, I’ll give you everything 💍";
+    final.style.opacity = 1;
   }
 }
 </script>
