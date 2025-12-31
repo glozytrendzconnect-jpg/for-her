@@ -50,25 +50,25 @@ body {
   50% { transform: scale(1.06); }
 }
 
-/* ❤️ Heart Surprise */
-.heart-box {
-  font-size: 96px;
-  animation: heartbeat 1.2s infinite;
+/* 🎁 Gift Box */
+.gift-box {
+  font-size: 90px;
+  animation: shake 1.2s infinite;
   cursor: pointer;
 }
 
-.heart-text {
+.gift-text {
   margin-top: 18px;
   font-size: 16px;
-  opacity: 0.85;
+  opacity: 0.9;
 }
 
-@keyframes heartbeat {
-  0% { transform: scale(1); }
-  20% { transform: scale(1.2); }
-  40% { transform: scale(1); }
-  60% { transform: scale(1.3); }
-  80% { transform: scale(1); }
+@keyframes shake {
+  0% { transform: rotate(0); }
+  25% { transform: rotate(-5deg); }
+  50% { transform: rotate(5deg); }
+  75% { transform: rotate(-5deg); }
+  100% { transform: rotate(0); }
 }
 
 /* Card */
@@ -143,18 +143,18 @@ body {
 
 <body>
 
-<!-- TAP SCREEN -->
+<!-- TAP -->
 <div class="center" id="startScreen">
   <div class="tap">Tap to Begin ❤️</div>
 </div>
 
-<!-- HEART SURPRISE -->
-<div class="center hidden" id="heartScreen">
-  <div class="heart-box" id="heartBox">❤️</div>
-  <div class="heart-text">Tap to open</div>
+<!-- 🎁 GIFT BOX -->
+<div class="center hidden" id="giftScreen">
+  <div class="gift-box" id="giftBox">🎁</div>
+  <div class="gift-text">Tap to open your gift</div>
 </div>
 
-<!-- MAIN CONTENT -->
+<!-- MAIN -->
 <div class="center hidden" id="main">
   <div class="card">
     <img src="IMG_20251103_110419.jpg" class="photo" alt="Her Photo">
@@ -194,27 +194,27 @@ const lines = [
 ];
 
 const start = document.getElementById("startScreen");
-const heartScreen = document.getElementById("heartScreen");
-const heartBox = document.getElementById("heartBox");
+const giftScreen = document.getElementById("giftScreen");
+const giftBox = document.getElementById("giftBox");
 const main = document.getElementById("main");
 
-// Step 1 → Tap
+// Step 1
 start.onclick = () => {
   start.classList.add("hidden");
-  heartScreen.classList.remove("hidden");
+  giftScreen.classList.remove("hidden");
 };
 
-// Step 2 → Heart crack
-heartBox.onclick = () => {
-  heartBox.innerText = "💔";
-  heartBox.style.animation = "none";
+// Step 2
+giftBox.onclick = () => {
+  giftBox.innerText = "💥";
+  giftBox.style.animation = "none";
 
   setTimeout(() => {
-    heartScreen.classList.add("hidden");
+    giftScreen.classList.add("hidden");
     main.classList.remove("hidden");
     revealName();
     setTimeout(typeMessage, 2200);
-  }, 900);
+  }, 800);
 };
 
 // Name reveal
