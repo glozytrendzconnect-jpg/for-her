@@ -59,7 +59,6 @@ body {
   font-weight: 600;
   margin-bottom: 20px;
   opacity: 0;
-  animation: fadeIn 2s ease forwards;
 }
 
 .message {
@@ -79,7 +78,7 @@ body {
   font-size: 20px;
   font-weight: 600;
   opacity: 0;
-  animation: fadeIn 2s ease forwards;
+  transition: opacity 2s ease;
 }
 
 @keyframes fadeIn {
@@ -117,12 +116,8 @@ body {
   </div>
 </div>
 
-<audio id="music" loop>
-  <source src="music.mp3" type="audio/mpeg">
-</audio>
-
 <script>
-const herName = "My Love 🌙"; // CHANGE NAME HERE
+const herName = "My Love 🌙"; // CHANGE HER NAME HERE
 
 const lines = [
   "Happy New Year.",
@@ -138,24 +133,22 @@ const lines = [
   "Next year… expect something big."
 ];
 
-const startBtn = document.getElementById("startScreen");
+const startScreen = document.getElementById("startScreen");
 const main = document.getElementById("main");
-const music = document.getElementById("music");
 
-startBtn.onclick = () => {
-  startBtn.classList.add("hidden");
+startScreen.onclick = () => {
+  startScreen.classList.add("hidden");
   main.classList.remove("hidden");
-  music.play();
   revealName();
-  setTimeout(typeMessage, 3000);
+  setTimeout(typeMessage, 2500);
   startCountdown();
 };
 
 function revealName() {
   const nameDiv = document.getElementById("name");
   let i = 0;
+  nameDiv.style.opacity = 1;
   const interval = setInterval(() => {
-    nameDiv.style.opacity = 1;
     nameDiv.innerHTML += herName.charAt(i);
     i++;
     if (i >= herName.length) clearInterval(interval);
@@ -178,9 +171,9 @@ function typeMessage() {
       setTimeout(typeMessage, 600);
     }
   } else {
-    document.getElementById("final").innerText =
-      "One day, I’ll give you everything 💍";
-    document.getElementById("final").style.opacity = 1;
+    const final = document.getElementById("final");
+    final.innerText = "One day, I’ll give you everything 💍";
+    final.style.opacity = 1;
   }
 }
 
