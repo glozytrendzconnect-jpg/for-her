@@ -8,15 +8,33 @@
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
 
+* {
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
   height: 100vh;
-  background: radial-gradient(circle at top, #1b2735, #090a0f);
+  background: radial-gradient(circle at top, #0f2027, #203a43, #000);
   font-family: 'Poppins', sans-serif;
   color: #fff;
   overflow: hidden;
 }
 
+/* 🌌 Floating Hearts */
+.heart {
+  position: absolute;
+  color: rgba(255, 100, 150, 0.6);
+  font-size: 14px;
+  animation: floatUp linear infinite;
+}
+
+@keyframes floatUp {
+  from { transform: translateY(100vh) scale(0.8); opacity: 0; }
+  to { transform: translateY(-10vh) scale(1.3); opacity: 1; }
+}
+
+/* Center Layout */
 .center {
   display: flex;
   align-items: center;
@@ -30,58 +48,79 @@ body {
   display: none;
 }
 
+/* Tap Screen */
 .tap {
   font-size: 22px;
-  animation: pulse 1.5s infinite;
+  padding: 16px 28px;
+  border-radius: 30px;
+  background: rgba(255,255,255,0.1);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 0 30px rgba(255,105,180,0.5);
+  animation: pulse 1.8s infinite;
   cursor: pointer;
 }
 
-.container {
-  text-align: center;
+@keyframes pulse {
+  0%,100% { transform: scale(1); }
+  50% { transform: scale(1.08); }
+}
+
+/* Glass Card */
+.card {
   max-width: 90%;
+  padding: 30px 24px;
+  background: rgba(255,255,255,0.08);
+  backdrop-filter: blur(14px);
+  border-radius: 22px;
+  box-shadow: 0 0 40px rgba(255,105,180,0.25);
   animation: fadeIn 2s ease forwards;
 }
 
+/* Photo */
 .photo {
-  width: 180px;
-  height: 180px;
+  width: 170px;
+  height: 170px;
   border-radius: 50%;
   object-fit: cover;
   border: 4px solid rgba(255,255,255,0.6);
-  box-shadow: 0 0 35px rgba(255,105,180,0.7);
+  box-shadow: 0 0 40px rgba(255,105,180,0.7);
   margin-bottom: 20px;
-  opacity: 0;
-  animation: reveal 2s ease forwards;
+  animation: photoGlow 3s infinite alternate;
+}
+
+@keyframes photoGlow {
+  from { box-shadow: 0 0 25px rgba(255,105,180,0.5); }
+  to { box-shadow: 0 0 45px rgba(255,105,180,0.9); }
 }
 
 .name {
   font-size: 26px;
   font-weight: 600;
-  margin-bottom: 20px;
+  margin-bottom: 18px;
   opacity: 0;
 }
 
 .message {
   font-size: 18px;
-  line-height: 1.7;
-  min-height: 200px;
+  line-height: 1.75;
+  min-height: 220px;
 }
 
-/* 🌱 Progress Section */
+/* 🌱 Progress */
 .progress-wrap {
   margin-top: 30px;
 }
 
 .progress-text {
   font-size: 15px;
-  opacity: 0.85;
-  margin-bottom: 8px;
+  opacity: 0.9;
+  margin-bottom: 10px;
 }
 
 .progress-bar {
   width: 260px;
-  height: 8px;
-  background: rgba(255,255,255,0.2);
+  height: 9px;
+  background: rgba(255,255,255,0.25);
   border-radius: 10px;
   overflow: hidden;
   margin: auto;
@@ -90,54 +129,61 @@ body {
 .progress-fill {
   height: 100%;
   width: 0%;
-  background: linear-gradient(90deg, #ff9a9e, #fad0c4);
+  background: linear-gradient(
+    120deg,
+    #ff9a9e,
+    #fad0c4,
+    #ff9a9e
+  );
+  background-size: 200% 200%;
+  animation: shimmer 3s infinite;
   border-radius: 10px;
   transition: width 2s ease;
 }
 
+@keyframes shimmer {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 100% 50%; }
+}
+
+/* Final Line */
 .final {
-  margin-top: 25px;
-  font-size: 20px;
+  margin-top: 26px;
+  font-size: 21px;
   font-weight: 600;
   opacity: 0;
-  transition: opacity 2s ease;
+  animation: glowText 2s infinite alternate;
+}
+
+@keyframes glowText {
+  from { text-shadow: 0 0 10px rgba(255,105,180,0.4); }
+  to { text-shadow: 0 0 20px rgba(255,105,180,0.9); }
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-@keyframes reveal {
-  from { opacity: 0; transform: scale(0.8); }
-  to { opacity: 1; transform: scale(1); }
-}
-
-@keyframes pulse {
-  0%,100% { transform: scale(1); }
-  50% { transform: scale(1.1); }
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 </style>
 </head>
 
 <body>
 
-<!-- TAP TO START -->
+<!-- Tap Screen -->
 <div class="center" id="startScreen">
   <div class="tap">Tap to Begin ❤️</div>
 </div>
 
-<!-- MAIN CONTENT -->
+<!-- Main -->
 <div class="center hidden" id="main">
-  <div class="container">
-    <img src="Purple and Gold Modern Happy New Year Instagram Post.png" class="photo" alt="Her Photo">
+  <div class="card">
+    <img src="her.jpg" class="photo">
     <div class="name" id="name"></div>
     <div class="message" id="message"></div>
 
-    <!-- 🌱 PROMISE PROGRESS -->
     <div class="progress-wrap">
       <div class="progress-text">
-        I’m building this, step by step — for us 🌱
+        I’m building this slowly, honestly — for us 🌱
       </div>
       <div class="progress-bar">
         <div class="progress-fill" id="progressFill"></div>
@@ -149,22 +195,24 @@ body {
 </div>
 
 <script>
-// 🔧 CHANGE HER NAME HERE
+// 💕 CONFIG
 const herName = "My Love 🌙";
 
-// 💬 MESSAGE CONTENT
 const lines = [
   "Happy New Year.",
   "",
-  "This year, I couldn’t give you a gift.",
-  "Not because you don’t deserve one…",
-  "but because right now, I have nothing.",
+  "I know this year I couldn’t give you a gift.",
+  "Not because you weren’t important…",
+  "but because I’m still building myself.",
   "",
-  "What I do have is a promise.",
-  "I’m building my life, my future,",
-  "and everything I dream of — for you."
+  "Every late night.",
+  "Every silent struggle.",
+  "Every dream I refuse to give up.",
+  "",
+  "They’re all for you."
 ];
 
+// Tap start
 const startScreen = document.getElementById("startScreen");
 const main = document.getElementById("main");
 
@@ -174,9 +222,10 @@ startScreen.onclick = () => {
   revealName();
   setTimeout(typeMessage, 2500);
   setTimeout(updateProgress, 4000);
+  spawnHearts();
 };
 
-// 🌙 NAME REVEAL
+// Name reveal
 function revealName() {
   const nameDiv = document.getElementById("name");
   let i = 0;
@@ -186,10 +235,10 @@ function revealName() {
     nameDiv.innerHTML += herName.charAt(i);
     i++;
     if (i >= herName.length) clearInterval(interval);
-  }, 120);
+  }, 140);
 }
 
-// ⌨️ TYPEWRITER MESSAGE
+// Typewriter
 let line = 0, char = 0;
 const msgDiv = document.getElementById("message");
 
@@ -198,12 +247,12 @@ function typeMessage() {
     if (char < lines[line].length) {
       msgDiv.innerHTML += lines[line].charAt(char);
       char++;
-      setTimeout(typeMessage, 40);
+      setTimeout(typeMessage, 45);
     } else {
       msgDiv.innerHTML += "<br>";
       char = 0;
       line++;
-      setTimeout(typeMessage, 600);
+      setTimeout(typeMessage, 650);
     }
   } else {
     const final = document.getElementById("final");
@@ -212,17 +261,31 @@ function typeMessage() {
   }
 }
 
-// 🌱 PROGRESS (STARTS JAN 1, 2026 → ENDS JAN 1, 2027)
+// 🌱 Progress (Jan 1 2026 → Jan 1 2027)
 function updateProgress() {
-  const start = new Date("January 1, 2026 00:00:00").getTime();
-  const end   = new Date("January 1, 2027 00:00:00").getTime();
-  const now   = new Date().getTime();
+  const start = new Date("January 1, 2026").getTime();
+  const end = new Date("January 1, 2027").getTime();
+  const now = new Date().getTime();
 
   let progress = ((now - start) / (end - start)) * 100;
   progress = Math.max(0, Math.min(progress, 100));
 
   document.getElementById("progressFill").style.width =
     Math.floor(progress) + "%";
+}
+
+// Floating hearts
+function spawnHearts() {
+  setInterval(() => {
+    const heart = document.createElement("div");
+    heart.className = "heart";
+    heart.innerText = "❤️";
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.animationDuration = (6 + Math.random() * 6) + "s";
+    document.body.appendChild(heart);
+
+    setTimeout(() => heart.remove(), 12000);
+  }, 900);
 }
 </script>
 
