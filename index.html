@@ -8,9 +8,7 @@
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
 
-* {
-  box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
 body {
   margin: 0;
@@ -28,14 +26,14 @@ body {
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  flex-direction: column;
   padding: 16px;
+  flex-direction: column;
   text-align: center;
 }
 
 .hidden { display: none; }
 
-/* Tap Screen */
+/* Tap */
 .tap {
   font-size: 20px;
   padding: 14px 26px;
@@ -87,14 +85,14 @@ body {
 .message {
   font-size: 17px;
   line-height: 1.9;
-  min-height: 300px;
+  min-height: 320px;
   padding: 0 4px;
 }
 
 /* Final */
 .final {
   margin-top: 22px;
-  font-size: 20px;
+  font-size: 21px;
   font-weight: 600;
   opacity: 0;
   transform: scale(0.9);
@@ -132,7 +130,7 @@ body {
 <!-- MAIN -->
 <div class="center hidden" id="main">
   <div class="card">
-    <img src="Purple and Gold Modern Happy New Year Instagram Post.png" class="photo" alt="Her Photo">
+    <img src="her.jpg" class="photo" alt="Her Photo">
     <div class="name" id="name"></div>
     <div class="message" id="message"></div>
     <div class="final" id="final"></div>
@@ -147,28 +145,28 @@ const herName = "My Love 🌙";
 const lines = [
   "Happy New Year, my love.",
   "",
-  "There’s something I want to say from my heart.",
+  "There’s something I want to tell you — quietly, honestly.",
   "",
   "This year, I couldn’t give you a birthday gift.",
-  "I’m truly sorry for that.",
+  "And I couldn’t give you a New Year gift either.",
   "",
-  "Not because you weren’t important to me,",
-  "but because I’m still finding my feet in this life.",
+  "Not because I didn’t want to,",
+  "but because right now, life has asked me to build before I can give.",
   "",
-  "What hurts me most is not the gift I couldn’t give,",
-  "but the moment I wished I could make you smile more.",
+  "What you may not fully know is this —",
+  "when you chose me, even when others tried to impress you,",
+  "that choice meant more to me than any gift I could ever buy.",
   "",
-  "Please know this —",
-  "even on the days I had nothing in my hands,",
-  "you were always in my heart.",
+  "You didn’t choose the moment.",
+  "You chose the person.",
   "",
-  "I’m not there yet,",
-  "but I’m becoming someone better — slowly, honestly —",
-  "someone who wants to deserve you.",
+  "I may not have much in my hands today,",
+  "but I have something steady in my heart —",
+  "a promise to become someone who never makes you feel unsure.",
   "",
-  "And when the time comes,",
-  "I won’t just make up for one birthday.",
-  "I’ll spend my life celebrating you."
+  "One day, when I give you something,",
+  "it won’t be to compete with anyone else.",
+  "It will be because I became the man I promised you I would be."
 ];
 
 const start = document.getElementById("startScreen");
@@ -214,13 +212,13 @@ function typeMessage() {
   }
 }
 
-// Final reveal + hearts
+// Final reveal
 function finalReveal() {
   document.body.style.background =
     "radial-gradient(circle at center, #1a2a33, #000)";
 
   const final = document.getElementById("final");
-  final.innerText = "One day, I’ll give you everything 💍";
+  final.innerText = "Thank you for choosing me. Always. ❤️";
   final.style.opacity = 1;
   final.style.transform = "scale(1)";
 
@@ -228,7 +226,7 @@ function finalReveal() {
 }
 
 function heartBurst() {
-  for (let i = 0; i < 14; i++) {
+  for (let i = 0; i < 12; i++) {
     const h = document.createElement("div");
     h.className = "heart";
     h.innerText = "❤️";
@@ -236,7 +234,6 @@ function heartBurst() {
     h.style.bottom = "-20px";
     h.style.animationDelay = Math.random() * 2 + "s";
     document.body.appendChild(h);
-
     setTimeout(() => h.remove(), 8000);
   }
 }
