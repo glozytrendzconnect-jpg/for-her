@@ -43,10 +43,7 @@ body {
   cursor: pointer;
 }
 
-/* Pulse */
-.tap {
-  animation: pulse 1.8s infinite;
-}
+.tap { animation: pulse 1.8s infinite; }
 
 @keyframes pulse {
   0%,100% { transform: scale(1); }
@@ -66,18 +63,6 @@ body {
   50% { transform: rotate(6deg); }
   75% { transform: rotate(-6deg); }
   100% { transform: rotate(0); }
-}
-
-/* 💍 Ring */
-.ring-box {
-  font-size: 80px;
-  margin-top: 10px;
-  animation: glow 1.6s infinite alternate;
-}
-
-@keyframes glow {
-  from { transform: scale(1); }
-  to { transform: scale(1.2); }
 }
 
 /* Question */
@@ -150,6 +135,44 @@ body {
   20% { opacity: 1; }
   to { transform: translateY(-120vh) scale(1.4); opacity: 0; }
 }
+
+/* 💍 RING BOX */
+.ring-container {
+  margin-top: 25px;
+  opacity: 0;
+  transform: scale(0.8);
+  transition: all 1.5s ease;
+}
+
+.ring-container.show {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.ring-box {
+  font-size: 60px;
+  animation: ringPop 1.5s ease forwards;
+}
+
+@keyframes ringPop {
+  0% { transform: translateY(20px) scale(0); }
+  60% { transform: translateY(-10px) scale(1.2); }
+  100% { transform: translateY(0) scale(1); }
+}
+
+.ring-text {
+  margin-top: 10px;
+  font-size: 18px;
+  font-weight: 600;
+  opacity: 0;
+  animation: fadeInText 1.5s ease forwards;
+  animation-delay: 1s;
+}
+
+@keyframes fadeInText {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
 </style>
 </head>
 
@@ -180,14 +203,20 @@ body {
     <div class="name" id="name"></div>
     <div class="message" id="message"></div>
     <div class="final" id="final"></div>
-    <div class="ring-box hidden" id="ringBox">💍</div>
+
+    <!-- 💍 AUTO RING BOX -->
+    <div class="ring-container" id="ringContainer">
+      <div class="ring-box">💍</div>
+      <div class="ring-text" id="ringText"></div>
+    </div>
   </div>
 </div>
 
 <script>
 const herName = "My Love 🌙";
+const ringMessage = "Hunais ❤️ Nihala";
 
-/* 😨 10 SCARY QUESTIONS */
+/* QUESTIONS */
 const questions = [
   "I’ve been hiding something from you…",
   "I don’t know how to say this without hurting you…",
@@ -235,7 +264,8 @@ const giftBox = document.getElementById("giftBox");
 const questionScreen = document.getElementById("questionScreen");
 const questionText = document.getElementById("questionText");
 const main = document.getElementById("main");
-const ringBox = document.getElementById("ringBox");
+const ringContainer = document.getElementById("ringContainer");
+const ringText = document.getElementById("ringText");
 
 start.onclick = () => {
   start.classList.add("hidden");
@@ -243,14 +273,12 @@ start.onclick = () => {
 };
 
 giftBox.onclick = () => {
-  navigator.vibrate?.(200); // Android
   gift.classList.add("hidden");
   questionScreen.classList.remove("hidden");
   questionText.innerText = questions[0];
 };
 
 function nextQuestion() {
-  navigator.vibrate?.(100); // Android
   qIndex++;
   if (qIndex < questions.length) {
     questionText.innerText = questions[qIndex];
@@ -289,16 +317,13 @@ function typeMessage() {
   }
 }
 
-/* 💍 FINAL */
+/* FINAL */
 function finalReveal() {
-  const final = document.getElementById("final");
-  final.innerText = "One day, I’ll give you everything 💍";
-  final.style.opacity = 1;
-
-  ringBox.classList.remove("hidden");
-  navigator.vibrate?.([200,100,200]); // Android
+  document.getElementById("final").innerText =
+    "One day, I’ll give you everything 💍";
 
   startHeartLoop();
+  openRingBox();
 }
 
 /* ❤️ HEART LOOP */
@@ -311,6 +336,14 @@ function startHeartLoop() {
     document.body.appendChild(h);
     setTimeout(() => h.remove(), 8000);
   }, 700);
+}
+
+/* 💍 AUTO OPEN RING BOX */
+function openRingBox() {
+  setTimeout(() => {
+    ringContainer.classList.add("show");
+    ringText.innerText = ringMessage;
+  }, 1200);
 }
 </script>
 
