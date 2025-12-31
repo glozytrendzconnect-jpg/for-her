@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <title>For You ❤️</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
@@ -14,150 +14,105 @@
 
 body {
   margin: 0;
-  height: 100vh;
+  min-height: 100vh;
   background: radial-gradient(circle at top, #0f2027, #203a43, #000);
   font-family: 'Poppins', sans-serif;
   color: #fff;
-  overflow: hidden;
+  overflow-x: hidden;
+  transition: background 3s ease;
 }
 
-/* 🌌 Floating Hearts */
-.heart {
-  position: absolute;
-  color: rgba(255, 100, 150, 0.6);
-  font-size: 14px;
-  animation: floatUp linear infinite;
-}
-
-@keyframes floatUp {
-  from { transform: translateY(100vh) scale(0.8); opacity: 0; }
-  to { transform: translateY(-10vh) scale(1.3); opacity: 1; }
-}
-
-/* Center Layout */
+/* Center */
 .center {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 100vh;
+  min-height: 100vh;
   flex-direction: column;
+  padding: 16px;
   text-align: center;
 }
 
-.hidden {
-  display: none;
-}
+.hidden { display: none; }
 
 /* Tap Screen */
 .tap {
-  font-size: 22px;
-  padding: 16px 28px;
-  border-radius: 30px;
-  background: rgba(255,255,255,0.1);
+  font-size: 20px;
+  padding: 14px 26px;
+  border-radius: 28px;
+  background: rgba(255,255,255,0.15);
   backdrop-filter: blur(10px);
-  box-shadow: 0 0 30px rgba(255,105,180,0.5);
+  box-shadow: 0 0 30px rgba(255,105,180,0.6);
   animation: pulse 1.8s infinite;
   cursor: pointer;
 }
 
 @keyframes pulse {
   0%,100% { transform: scale(1); }
-  50% { transform: scale(1.08); }
+  50% { transform: scale(1.06); }
 }
 
-/* Glass Card */
+/* Card */
 .card {
-  max-width: 90%;
-  padding: 30px 24px;
+  width: 100%;
+  max-width: 420px;
+  padding: 26px 20px;
   background: rgba(255,255,255,0.08);
-  backdrop-filter: blur(14px);
+  backdrop-filter: blur(16px);
   border-radius: 22px;
-  box-shadow: 0 0 40px rgba(255,105,180,0.25);
+  box-shadow: 0 0 45px rgba(255,105,180,0.25);
   animation: fadeIn 2s ease forwards;
 }
 
 /* Photo */
 .photo {
-  width: 170px;
-  height: 170px;
+  width: 150px;
+  height: 150px;
   border-radius: 50%;
   object-fit: cover;
-  border: 4px solid rgba(255,255,255,0.6);
-  box-shadow: 0 0 40px rgba(255,105,180,0.7);
-  margin-bottom: 20px;
-  animation: photoGlow 3s infinite alternate;
-}
-
-@keyframes photoGlow {
-  from { box-shadow: 0 0 25px rgba(255,105,180,0.5); }
-  to { box-shadow: 0 0 45px rgba(255,105,180,0.9); }
-}
-
-.name {
-  font-size: 26px;
-  font-weight: 600;
+  border: 4px solid rgba(255,255,255,0.7);
+  box-shadow: 0 0 40px rgba(255,105,180,0.8);
   margin-bottom: 18px;
+}
+
+/* Name */
+.name {
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 16px;
   opacity: 0;
 }
 
+/* Message */
 .message {
-  font-size: 18px;
-  line-height: 1.75;
-  min-height: 220px;
+  font-size: 17px;
+  line-height: 1.9;
+  min-height: 300px;
+  padding: 0 4px;
 }
 
-/* 🌱 Progress */
-.progress-wrap {
-  margin-top: 30px;
-}
-
-.progress-text {
-  font-size: 15px;
-  opacity: 0.9;
-  margin-bottom: 10px;
-}
-
-.progress-bar {
-  width: 260px;
-  height: 9px;
-  background: rgba(255,255,255,0.25);
-  border-radius: 10px;
-  overflow: hidden;
-  margin: auto;
-}
-
-.progress-fill {
-  height: 100%;
-  width: 0%;
-  background: linear-gradient(
-    120deg,
-    #ff9a9e,
-    #fad0c4,
-    #ff9a9e
-  );
-  background-size: 200% 200%;
-  animation: shimmer 3s infinite;
-  border-radius: 10px;
-  transition: width 2s ease;
-}
-
-@keyframes shimmer {
-  0% { background-position: 0% 50%; }
-  100% { background-position: 100% 50%; }
-}
-
-/* Final Line */
+/* Final */
 .final {
-  margin-top: 26px;
-  font-size: 21px;
+  margin-top: 22px;
+  font-size: 20px;
   font-weight: 600;
   opacity: 0;
-  animation: glowText 2s infinite alternate;
+  transform: scale(0.9);
+  transition: all 2s ease;
 }
 
-@keyframes glowText {
-  from { text-shadow: 0 0 10px rgba(255,105,180,0.4); }
-  to { text-shadow: 0 0 20px rgba(255,105,180,0.9); }
+/* Hearts */
+.heart {
+  position: fixed;
+  font-size: 16px;
+  animation: rise 6s ease forwards;
+  pointer-events: none;
+}
+
+@keyframes rise {
+  from { transform: translateY(0) scale(0.6); opacity: 0; }
+  20% { opacity: 1; }
+  to { transform: translateY(-120vh) scale(1.3); opacity: 0; }
 }
 
 @keyframes fadeIn {
@@ -169,123 +124,121 @@ body {
 
 <body>
 
-<!-- Tap Screen -->
+<!-- TAP -->
 <div class="center" id="startScreen">
   <div class="tap">Tap to Begin ❤️</div>
 </div>
 
-<!-- Main -->
+<!-- MAIN -->
 <div class="center hidden" id="main">
   <div class="card">
-    <img src="Purple and Gold Modern Happy New Year Instagram Post.png" class="photo">
+    <img src="her.jpg" class="photo" alt="Her Photo">
     <div class="name" id="name"></div>
     <div class="message" id="message"></div>
-
-    <div class="progress-wrap">
-      <div class="progress-text">
-        I’m building this slowly, honestly — for us 🌱
-      </div>
-      <div class="progress-bar">
-        <div class="progress-fill" id="progressFill"></div>
-      </div>
-    </div>
-
     <div class="final" id="final"></div>
   </div>
 </div>
 
 <script>
-// 💕 CONFIG
+// 🔧 CHANGE HER NAME
 const herName = "My Love 🌙";
 
+// 💌 MESSAGE CONTENT
 const lines = [
-  "Happy New Year.",
+  "Happy New Year, my love.",
   "",
-  "I know this year I couldn’t give you a gift.",
-  "Not because you weren’t important…",
-  "but because I’m still building myself.",
+  "There’s something I want to say from my heart.",
   "",
-  "Every late night.",
-  "Every silent struggle.",
-  "Every dream I refuse to give up.",
+  "This year, I couldn’t give you a birthday gift.",
+  "I’m truly sorry for that.",
   "",
-  "They’re all for you."
+  "Not because you weren’t important to me,",
+  "but because I’m still finding my feet in this life.",
+  "",
+  "What hurts me most is not the gift I couldn’t give,",
+  "but the moment I wished I could make you smile more.",
+  "",
+  "Please know this —",
+  "even on the days I had nothing in my hands,",
+  "you were always in my heart.",
+  "",
+  "I’m not there yet,",
+  "but I’m becoming someone better — slowly, honestly —",
+  "someone who wants to deserve you.",
+  "",
+  "And when the time comes,",
+  "I won’t just make up for one birthday.",
+  "I’ll spend my life celebrating you."
 ];
 
-// Tap start
-const startScreen = document.getElementById("startScreen");
+const start = document.getElementById("startScreen");
 const main = document.getElementById("main");
 
-startScreen.onclick = () => {
-  startScreen.classList.add("hidden");
+start.onclick = () => {
+  start.classList.add("hidden");
   main.classList.remove("hidden");
   revealName();
-  setTimeout(typeMessage, 2500);
-  setTimeout(updateProgress, 4000);
-  spawnHearts();
+  setTimeout(typeMessage, 2200);
 };
 
 // Name reveal
 function revealName() {
-  const nameDiv = document.getElementById("name");
+  const el = document.getElementById("name");
   let i = 0;
-  nameDiv.style.opacity = 1;
-
-  const interval = setInterval(() => {
-    nameDiv.innerHTML += herName.charAt(i);
+  el.style.opacity = 1;
+  const intv = setInterval(() => {
+    el.innerHTML += herName.charAt(i);
     i++;
-    if (i >= herName.length) clearInterval(interval);
-  }, 140);
+    if (i >= herName.length) clearInterval(intv);
+  }, 130);
 }
 
 // Typewriter
-let line = 0, char = 0;
-const msgDiv = document.getElementById("message");
+let l = 0, c = 0;
+const msg = document.getElementById("message");
 
 function typeMessage() {
-  if (line < lines.length) {
-    if (char < lines[line].length) {
-      msgDiv.innerHTML += lines[line].charAt(char);
-      char++;
+  if (l < lines.length) {
+    if (c < lines[l].length) {
+      msg.innerHTML += lines[l].charAt(c);
+      c++;
       setTimeout(typeMessage, 45);
     } else {
-      msgDiv.innerHTML += "<br>";
-      char = 0;
-      line++;
+      msg.innerHTML += "<br>";
+      c = 0;
+      l++;
       setTimeout(typeMessage, 650);
     }
   } else {
-    const final = document.getElementById("final");
-    final.innerText = "One day, I’ll give you everything 💍";
-    final.style.opacity = 1;
+    finalReveal();
   }
 }
 
-// 🌱 Progress (Jan 1 2026 → Jan 1 2027)
-function updateProgress() {
-  const start = new Date("January 1, 2026").getTime();
-  const end = new Date("January 1, 2027").getTime();
-  const now = new Date().getTime();
+// Final reveal + hearts
+function finalReveal() {
+  document.body.style.background =
+    "radial-gradient(circle at center, #1a2a33, #000)";
 
-  let progress = ((now - start) / (end - start)) * 100;
-  progress = Math.max(0, Math.min(progress, 100));
+  const final = document.getElementById("final");
+  final.innerText = "One day, I’ll give you everything 💍";
+  final.style.opacity = 1;
+  final.style.transform = "scale(1)";
 
-  document.getElementById("progressFill").style.width =
-    Math.floor(progress) + "%";
+  heartBurst();
 }
 
-// Floating hearts
-function spawnHearts() {
-  setInterval(() => {
-    const heart = document.createElement("div");
-    heart.className = "heart";
-    heart.innerText = "❤️";
-    heart.style.left = Math.random() * 100 + "vw";
-    heart.style.animationDuration = (6 + Math.random() * 6) + "s";
-    document.body.appendChild(heart);
+function heartBurst() {
+  for (let i = 0; i < 14; i++) {
+    const h = document.createElement("div");
+    h.className = "heart";
+    h.innerText = "❤️";
+    h.style.left = Math.random() * 100 + "vw";
+    h.style.bottom = "-20px";
+    h.style.animationDelay = Math.random() * 2 + "s";
+    document.body.appendChild(h);
 
-    setTimeout(() => heart.remove(), 12000);
-  }, 900);
+    setTimeout(() => h.remove(), 8000);
+  }
 }
 </script>
 
