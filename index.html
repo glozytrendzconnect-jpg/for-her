@@ -17,7 +17,6 @@ body {
   font-family: 'Poppins', sans-serif;
   color: #fff;
   overflow-x: hidden;
-  transition: background 2s ease;
 }
 
 .center {
@@ -54,7 +53,7 @@ body {
   50% { transform: scale(1.06); }
 }
 
-/* Gift */
+/* 🎁 Gift */
 .gift-box {
   font-size: 90px;
   animation: shake 1.2s infinite;
@@ -63,10 +62,21 @@ body {
 
 @keyframes shake {
   0% { transform: rotate(0); }
-  25% { transform: rotate(-5deg); }
-  50% { transform: rotate(5deg); }
-  75% { transform: rotate(-5deg); }
+  25% { transform: rotate(-6deg); }
+  50% { transform: rotate(6deg); }
+  75% { transform: rotate(-6deg); }
   100% { transform: rotate(0); }
+}
+
+/* 💍 Ring Box */
+.ring-box {
+  font-size: 80px;
+  animation: glow 1.5s infinite alternate;
+}
+
+@keyframes glow {
+  from { transform: scale(1); }
+  to { transform: scale(1.2); }
 }
 
 /* Question */
@@ -110,25 +120,25 @@ body {
 }
 
 .final {
-  margin-top: 22px;
+  margin-top: 20px;
   font-size: 20px;
   font-weight: 600;
   opacity: 0;
-  transition: 2s ease;
 }
 
-/* ❤️ LOVE LOOP */
+/* ❤️ HEART LOOP */
 .heart {
   position: fixed;
+  bottom: -20px;
   font-size: 16px;
-  animation: floatUp 6s linear forwards;
+  animation: floatUp 7s linear forwards;
   pointer-events: none;
 }
 
 @keyframes floatUp {
-  from { transform: translateY(100vh) scale(0.6); opacity: 0; }
+  from { transform: translateY(0) scale(0.6); opacity: 0; }
   20% { opacity: 1; }
-  to { transform: translateY(-120vh) scale(1.3); opacity: 0; }
+  to { transform: translateY(-120vh) scale(1.4); opacity: 0; }
 }
 </style>
 </head>
@@ -143,14 +153,14 @@ body {
 <!-- GIFT -->
 <div class="center hidden" id="giftScreen">
   <div class="gift-box" id="giftBox">🎁</div>
-  <div style="margin-top:16px;">Tap to open your gift</div>
+  <div style="margin-top:16px;">Tap to open</div>
 </div>
 
 <!-- QUESTIONS -->
 <div class="center hidden" id="questionScreen">
   <div class="question" id="questionText"></div>
   <div class="option" onclick="nextQuestion()">Okay… 😟</div>
-  <div class="option" onclick="nextQuestion()">Just tell me 😢</div>
+  <div class="option" onclick="nextQuestion()">Just say it 😢</div>
 </div>
 
 <!-- MAIN -->
@@ -160,18 +170,20 @@ body {
     <div class="name" id="name"></div>
     <div class="message" id="message"></div>
     <div class="final" id="final"></div>
+    <div class="ring-box hidden" id="ringBox">💍</div>
   </div>
 </div>
 
 <script>
 const herName = "My Love 🌙";
 
+/* 😨 SCARY QUESTIONS */
 const questions = [
-  "I’ve been thinking a lot about us…",
-  "What I’m about to say might hurt you…",
-  "I don’t know how to say this properly…",
-  "Please promise you won’t hate me…",
-  "Do you really want to hear the truth?"
+  "I’ve been hiding something from you…",
+  "I don’t know how you’ll react to this…",
+  "This could change how you see me…",
+  "Please don’t panic before I finish…",
+  "Are you sure you still want to continue?"
 ];
 
 let qIndex = 0;
@@ -208,6 +220,7 @@ const giftBox = document.getElementById("giftBox");
 const questionScreen = document.getElementById("questionScreen");
 const questionText = document.getElementById("questionText");
 const main = document.getElementById("main");
+const ringBox = document.getElementById("ringBox");
 
 start.onclick = () => {
   start.classList.add("hidden");
@@ -215,12 +228,14 @@ start.onclick = () => {
 };
 
 giftBox.onclick = () => {
+  navigator.vibrate?.(200);
   gift.classList.add("hidden");
   questionScreen.classList.remove("hidden");
   questionText.innerText = questions[0];
 };
 
 function nextQuestion() {
+  navigator.vibrate?.(100);
   qIndex++;
   if (qIndex < questions.length) {
     questionText.innerText = questions[qIndex];
@@ -238,6 +253,7 @@ function revealName() {
   el.innerText = herName;
 }
 
+/* TYPEWRITER */
 let l = 0, c = 0;
 const msg = document.getElementById("message");
 
@@ -254,23 +270,32 @@ function typeMessage() {
       setTimeout(typeMessage, 600);
     }
   } else {
-    const final = document.getElementById("final");
-    final.innerText = "One day, I’ll give you everything 💍";
-    final.style.opacity = 1;
-    startLoveLoop();
+    finalReveal();
   }
 }
 
-/* ❤️ LOVE LOOP */
-function startLoveLoop() {
+/* 💍 FINAL */
+function finalReveal() {
+  const final = document.getElementById("final");
+  final.innerText = "One day, I’ll give you everything 💍";
+  final.style.opacity = 1;
+
+  ringBox.classList.remove("hidden");
+  navigator.vibrate?.([200,100,200]);
+
+  startHeartLoop();
+}
+
+/* ❤️ HEART LOOP (FIXED) */
+function startHeartLoop() {
   setInterval(() => {
     const h = document.createElement("div");
     h.className = "heart";
     h.innerText = "❤️";
     h.style.left = Math.random() * 100 + "vw";
     document.body.appendChild(h);
-    setTimeout(() => h.remove(), 7000);
-  }, 500);
+    setTimeout(() => h.remove(), 8000);
+  }, 600);
 }
 </script>
 
