@@ -68,10 +68,11 @@ body {
   100% { transform: rotate(0); }
 }
 
-/* 💍 Ring Box */
+/* 💍 Ring */
 .ring-box {
   font-size: 80px;
-  animation: glow 1.5s infinite alternate;
+  margin-top: 10px;
+  animation: glow 1.6s infinite alternate;
 }
 
 @keyframes glow {
@@ -83,6 +84,15 @@ body {
 .question {
   font-size: 20px;
   margin-bottom: 22px;
+  animation: subtleShake 0.4s;
+}
+
+@keyframes subtleShake {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-4px); }
+  50% { transform: translateX(4px); }
+  75% { transform: translateX(-4px); }
+  100% { transform: translateX(0); }
 }
 
 /* Card */
@@ -160,7 +170,7 @@ body {
 <div class="center hidden" id="questionScreen">
   <div class="question" id="questionText"></div>
   <div class="option" onclick="nextQuestion()">Okay… 😟</div>
-  <div class="option" onclick="nextQuestion()">Just say it 😢</div>
+  <div class="option" onclick="nextQuestion()">Just tell me 😢</div>
 </div>
 
 <!-- MAIN -->
@@ -177,13 +187,18 @@ body {
 <script>
 const herName = "My Love 🌙";
 
-/* 😨 SCARY QUESTIONS */
+/* 😨 10 SCARY QUESTIONS */
 const questions = [
   "I’ve been hiding something from you…",
-  "I don’t know how you’ll react to this…",
+  "I don’t know how to say this without hurting you…",
+  "I’ve been scared to talk about this…",
   "This could change how you see me…",
-  "Please don’t panic before I finish…",
-  "Are you sure you still want to continue?"
+  "I almost didn’t make this for you…",
+  "I don’t want you to misunderstand me…",
+  "Please don’t stop reading after this…",
+  "I need you to trust me for a moment…",
+  "This is the hardest thing I’ve ever shared…",
+  "Are you sure you’re ready for the truth?"
 ];
 
 let qIndex = 0;
@@ -210,7 +225,7 @@ const lines = [
   "I’m working hard to become better,",
   "so one day I can give you everything you deserve.",
   "",
-  "And hey… sorry for scaring you 😅❤️",
+  "Sorry for scaring you earlier 😅❤️",
   "I just wanted to surprise you."
 ];
 
@@ -228,14 +243,14 @@ start.onclick = () => {
 };
 
 giftBox.onclick = () => {
-  navigator.vibrate?.(200);
+  navigator.vibrate?.(200); // Android
   gift.classList.add("hidden");
   questionScreen.classList.remove("hidden");
   questionText.innerText = questions[0];
 };
 
 function nextQuestion() {
-  navigator.vibrate?.(100);
+  navigator.vibrate?.(100); // Android
   qIndex++;
   if (qIndex < questions.length) {
     questionText.innerText = questions[qIndex];
@@ -281,12 +296,12 @@ function finalReveal() {
   final.style.opacity = 1;
 
   ringBox.classList.remove("hidden");
-  navigator.vibrate?.([200,100,200]);
+  navigator.vibrate?.([200,100,200]); // Android
 
   startHeartLoop();
 }
 
-/* ❤️ HEART LOOP (FIXED) */
+/* ❤️ HEART LOOP */
 function startHeartLoop() {
   setInterval(() => {
     const h = document.createElement("div");
@@ -295,7 +310,7 @@ function startHeartLoop() {
     h.style.left = Math.random() * 100 + "vw";
     document.body.appendChild(h);
     setTimeout(() => h.remove(), 8000);
-  }, 600);
+  }, 700);
 }
 </script>
 
