@@ -17,7 +17,7 @@ body {
   font-family: 'Poppins', sans-serif;
   color: #fff;
   overflow-x: hidden;
-  transition: background 3s ease;
+  transition: background 2s ease;
 }
 
 /* Center */
@@ -33,7 +33,7 @@ body {
 
 .hidden { display: none; }
 
-/* Tap */
+/* Tap Button */
 .tap {
   font-size: 20px;
   padding: 14px 26px;
@@ -48,6 +48,27 @@ body {
 @keyframes pulse {
   0%,100% { transform: scale(1); }
   50% { transform: scale(1.06); }
+}
+
+/* ❤️ Heart Surprise */
+.heart-box {
+  font-size: 96px;
+  animation: heartbeat 1.2s infinite;
+  cursor: pointer;
+}
+
+.heart-text {
+  margin-top: 18px;
+  font-size: 16px;
+  opacity: 0.85;
+}
+
+@keyframes heartbeat {
+  0% { transform: scale(1); }
+  20% { transform: scale(1.2); }
+  40% { transform: scale(1); }
+  60% { transform: scale(1.3); }
+  80% { transform: scale(1); }
 }
 
 /* Card */
@@ -99,7 +120,7 @@ body {
   transition: all 2s ease;
 }
 
-/* Hearts */
+/* Hearts Burst */
 .heart {
   position: fixed;
   font-size: 16px;
@@ -122,12 +143,18 @@ body {
 
 <body>
 
-<!-- TAP -->
+<!-- TAP SCREEN -->
 <div class="center" id="startScreen">
   <div class="tap">Tap to Begin ❤️</div>
 </div>
 
-<!-- MAIN -->
+<!-- HEART SURPRISE -->
+<div class="center hidden" id="heartScreen">
+  <div class="heart-box" id="heartBox">❤️</div>
+  <div class="heart-text">Tap to open</div>
+</div>
+
+<!-- MAIN CONTENT -->
 <div class="center hidden" id="main">
   <div class="card">
     <img src="IMG_20251103_110419.jpg" class="photo" alt="Her Photo">
@@ -138,7 +165,7 @@ body {
 </div>
 
 <script>
-// 🔧 CHANGE HER NAME
+// 💕 CONFIG
 const herName = "My Love 🌙";
 
 const lines = [
@@ -152,8 +179,7 @@ const lines = [
   "Not because I didn’t care,",
   "but because right now my situation is not good.",
   "",
-  "What I want you to know is this —",
-  "even when others tried to give you things,",
+  "Even when others tried to give you things,",
   "you chose me instead.",
   "",
   "That choice means more to me than any gift.",
@@ -168,13 +194,27 @@ const lines = [
 ];
 
 const start = document.getElementById("startScreen");
+const heartScreen = document.getElementById("heartScreen");
+const heartBox = document.getElementById("heartBox");
 const main = document.getElementById("main");
 
+// Step 1 → Tap
 start.onclick = () => {
   start.classList.add("hidden");
-  main.classList.remove("hidden");
-  revealName();
-  setTimeout(typeMessage, 2200);
+  heartScreen.classList.remove("hidden");
+};
+
+// Step 2 → Heart crack
+heartBox.onclick = () => {
+  heartBox.innerText = "💔";
+  heartBox.style.animation = "none";
+
+  setTimeout(() => {
+    heartScreen.classList.add("hidden");
+    main.classList.remove("hidden");
+    revealName();
+    setTimeout(typeMessage, 2200);
+  }, 900);
 };
 
 // Name reveal
@@ -223,8 +263,9 @@ function finalReveal() {
   heartBurst();
 }
 
+// Hearts burst
 function heartBurst() {
-  for (let i = 0; i < 100; i++) {
+  for (let i = 0; i < 40; i++) {
     const h = document.createElement("div");
     h.className = "heart";
     h.innerText = "❤️";
